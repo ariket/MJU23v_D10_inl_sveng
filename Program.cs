@@ -33,31 +33,12 @@
                 {
                     if (argument.Length == 2) //FIXME kontrollera att filen existerar
                     {
-                        using (StreamReader sr = new StreamReader(argument[1]))
-                        {
-                            dictionary = new List<SweEngGloss>(); // Empty it!
-                            string line = sr.ReadLine();
-                            while (line != null)
-                            {
-                                SweEngGloss gloss = new SweEngGloss(line);          //TODO göra static function
-                                dictionary.Add(gloss);
-                                line = sr.ReadLine();
-                            }
-                        }
+                        defaultFile = "..\\..\\..\\dict\\" + argument[1];
+                        loadList(defaultFile);
                     }
                     else if (argument.Length == 1)
                     {
-                        using (StreamReader sr = new StreamReader(defaultFile))
-                        {
-                            dictionary = new List<SweEngGloss>(); // Empty it!
-                            string line = sr.ReadLine();
-                            while (line != null)
-                            {
-                                SweEngGloss gloss = new SweEngGloss(line);
-                                dictionary.Add(gloss);
-                                line = sr.ReadLine();
-                            }
-                        }
+                        loadList(defaultFile);
                     }
                 }
                 else if (command == "list")
@@ -99,13 +80,13 @@
                 {
                     if (argument.Length == 2)  //FIXME kontrollera att ordet finns annars ge felmedelande 
                     {
-                        TranslateWord(argument);
+                        TranslateWord(argument[1]);
                     }
                     else if (argument.Length == 1)
                     {
                         Console.WriteLine("Write word to be translated: ");
                         string wordToTranslate = Console.ReadLine();
-                        TranslateWord(argument);
+                        TranslateWord(wordToTranslate);
                     }
                 }
                 else if (command == "help")
@@ -119,6 +100,21 @@
                 }
             }   //NYI Help funktion
             while (true);
+        }
+
+        private static void loadList(string defaultFile)
+        {
+            using (StreamReader sr = new StreamReader(defaultFile))
+            {
+                dictionary = new List<SweEngGloss>(); // Empty it!
+                string line = sr.ReadLine();
+                while (line != null)
+                {
+                    SweEngGloss gloss = new SweEngGloss(line);
+                    dictionary.Add(gloss);
+                    line = sr.ReadLine();
+                }
+            }
         }
 
         private static void removeWord(string sweWord, string engWord)
@@ -141,13 +137,13 @@
             engWord = Console.ReadLine();
         }
 
-        private static void TranslateWord(string[] argument)
+        private static void TranslateWord(string argument)
         {
             foreach (SweEngGloss gloss in dictionary)
             {
-                if (gloss.word_swe == argument[1])
+                if (gloss.word_swe == argument)
                     Console.WriteLine($"English for {gloss.word_swe} is {gloss.word_eng}");
-                if (gloss.word_eng == argument[1])
+                if (gloss.word_eng == argument)
                     Console.WriteLine($"Swedish for {gloss.word_eng} is {gloss.word_swe}");
             }
         }
