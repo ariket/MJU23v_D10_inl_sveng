@@ -34,13 +34,8 @@ namespace MJU23v_D10_inl_sveng
                 {
                     if (argument.Length == 1) loadList(defaultFile);
                     else try
-                        {
-                            {
-                                defaultFile = "..\\..\\..\\dict\\" + argument[1];
-                                loadList(defaultFile);
-                            }
-                        }
-                        catch (System.IO.FileNotFoundException) { Console.WriteLine($"File {defaultFile} didn´t exist"); defaultFile = "..\\..\\..\\dict\\sweeng.lis"; }
+                        { loadList("..\\..\\..\\dict\\" + argument[1]); }
+                        catch (System.IO.FileNotFoundException) { Console.WriteLine($"File ..\\..\\..\\dict\\{argument[1]} didn´t exist"); }
                 }
                 else if (command == "list")
                 {
