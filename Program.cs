@@ -19,7 +19,7 @@
         static void Main(string[] args)
         {
             string defaultFile = "..\\..\\..\\dict\\sweeng.lis";
-            Console.WriteLine("Welcome to the dictionary app!");
+            Console.WriteLine("Welcome to the dictionary app! \n<help> for allowed commands ");
             do
             {
                 Console.Write("> ");
@@ -134,13 +134,13 @@
                                 Console.WriteLine($"Swedish for {gloss.word_eng} is {gloss.word_swe}");
                         }
                     }
-                else if (command == "help")
-                    {
-                            Console.WriteLine("Allowed commands:");
-                            Console.Write("quit - for end tis program.\nload - load a file\nlist - list the file\nnew - add new post\ndelete - delete post  ");
-                    }
-
                 }
+                else if (command == "help")
+                {
+                    Console.WriteLine("Allowed commands:");
+                    Console.Write("quit - for end this program\nload - load a file\nlist - list all posts in program\nnew - add new post\ndelete - delete post\ntranslate - translate av word  ");
+                }
+
                 else
                 {
                     Console.WriteLine($"Unknown command: '{command}'");
