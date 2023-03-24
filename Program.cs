@@ -57,7 +57,7 @@ namespace MJU23v_D10_inl_sveng
                     }
                     else Console.WriteLine("Wrong input. Use new and push enter");
                 }
-                else if (command == "delete")  //TODO kontrollera att inmatning av användare är korrekt
+                else if (command == "delete") 
                 {
                     if (argument.Length == 3)
                     {
@@ -71,20 +71,21 @@ namespace MJU23v_D10_inl_sveng
                         wordInput(out sweWord, out engWord);
                         removeWord(sweWord, engWord);
                     }
-                    else { Console.WriteLine("Wrong input. Use new and push enter"); }
+                    else { Console.WriteLine("Wrong input. Use delete and push enter"); }
                 }
                 else if (command == "translate")
                 {
-                    if (argument.Length == 2)  //FIXME kontrollera att ordet finns annars ge felmedelande 
+                    if (argument.Length == 2)  
                     {
                         TranslateWord(argument[1]);
                     }
                     else if (argument.Length == 1)
                     {
-                        Console.WriteLine("Write word to be translated: ");
+                        Console.Write("Write word to be translated: ");
                         string wordToTranslate = Console.ReadLine();
                         TranslateWord(wordToTranslate);
                     }
+                    else { Console.WriteLine("Wrong input. Use translate and push enter"); }
                 }
                 else if (command == "help")
                 {
@@ -116,8 +117,6 @@ namespace MJU23v_D10_inl_sveng
 
         private static void removeWord(string sweWord, string engWord)
         {
-            Console.WriteLine($"{sweWord}  {engWord} ");
-
         int index = -1;
             for (int i = 0; i < dictionary.Count; i++)
             {
@@ -140,13 +139,18 @@ namespace MJU23v_D10_inl_sveng
 
         private static void TranslateWord(string argument)
         {
-            foreach (SweEngGloss gloss in dictionary)
+            try
             {
-                if (gloss.word_swe == argument)
-                    Console.WriteLine($"English for {gloss.word_swe} is {gloss.word_eng}");
-                if (gloss.word_eng == argument)
-                    Console.WriteLine($"Swedish for {gloss.word_eng} is {gloss.word_swe}");
+                foreach (SweEngGloss gloss in dictionary)
+                {
+                    if (gloss.word_swe == argument)
+                        Console.WriteLine($"English for {gloss.word_swe} is {gloss.word_eng}");
+                    if (gloss.word_eng == argument)
+                        Console.WriteLine($"Swedish for {gloss.word_eng} is {gloss.word_swe}");
+                }
             }
+            catch (System.NullReferenceException) { Console.WriteLine($"Empty list, load a list before using this command"); }
+
         }
     }
 }
