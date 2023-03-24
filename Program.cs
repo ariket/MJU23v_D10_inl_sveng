@@ -27,7 +27,7 @@
                 string command = argument[0];
                 if (command == "quit")
                 {
-                    Console.WriteLine("Goodbye!"); //TODO avslutar inte programmet
+                    Console.WriteLine("Goodbye!"); break;
                 }
                 else if (command == "load")
                 {
@@ -134,6 +134,12 @@
                                 Console.WriteLine($"Swedish for {gloss.word_eng} is {gloss.word_swe}");
                         }
                     }
+                else if (command == "help")
+                    {
+                            Console.WriteLine("Allowed commands:");
+                            Console.Write("quit - for end tis program.\nload - load a file\nlist - list the file\nnew - add new post\ndelete - delete post  ");
+                    }
+
                 }
                 else
                 {
