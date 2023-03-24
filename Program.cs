@@ -48,31 +48,19 @@ namespace MJU23v_D10_inl_sveng
                 }
                 else if (command == "new")
                 {
-                    string sweWord = "", engWord = "";
-                    if (argument.Length == 3) { sweWord = argument[1]; engWord = argument[2]; }
-                    if (argument.Length == 1) { wordInput(out sweWord, out engWord); }
-                    if ((argument.Length == 2) || (argument.Length > 3)) { Console.WriteLine("Wrong input. Use new and push enter"); }
-                    else try
-                        {
-                            dictionary.Add(new SweEngGloss(sweWord, engWord)); Console.WriteLine($"{sweWord} and {engWord} added to list ");
-                        }
-                        catch (System.NullReferenceException) { Console.WriteLine($"Empty list, load a list before using this command"); }
+                    string sweWord, engWord;
+                    wordCheck(argument, out sweWord, out engWord);
+                    if(argument.Length == 1 || argument.Length == 3)
+                    try { dictionary.Add(new SweEngGloss(sweWord, engWord)); Console.WriteLine($"{sweWord} and {engWord} added to list ");}
+                    catch (System.NullReferenceException) { Console.WriteLine($"Empty list, load a list before using this command"); }
                 }
                 else if (command == "delete")
                 {
-                    if (argument.Length == 3)
-                    {
-                        string sweWord = argument[1];
-                        string engWord = argument[2];
-                        removeWord(sweWord, engWord);
-                    }
-                    else if (argument.Length == 1)
-                    {
-                        string sweWord, engWord;
-                        wordInput(out sweWord, out engWord);
-                        removeWord(sweWord, engWord);
-                    }
-                    else { Console.WriteLine("Wrong input. Use delete and push enter"); }
+                    string sweWord, engWord;
+                    wordCheck(argument, out sweWord, out engWord);
+                    if (argument.Length == 1 || argument.Length == 3)
+                        try { removeWord(sweWord, engWord); }
+                    catch (System.NullReferenceException) { Console.WriteLine($"Empty list, load a list before using this command"); }
                 }
                 else if (command == "translate")
                 {
@@ -100,6 +88,15 @@ namespace MJU23v_D10_inl_sveng
                 }
             }
             while (true);
+        }
+
+        private static void wordCheck(string[] argument, out string sweWord, out string engWord)
+        {
+            sweWord = "";
+            engWord = "";
+            if (argument.Length == 3) { sweWord = argument[1]; engWord = argument[2]; }
+            if (argument.Length == 1) { wordInput(out sweWord, out engWord); }
+            if ((argument.Length == 2) || (argument.Length > 3)) { Console.WriteLine("Wrong input. Use new or delete and push enter"); }
         }
 
         private static void loadList(string defaultFile)
