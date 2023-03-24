@@ -1,4 +1,6 @@
-﻿namespace MJU23v_D10_inl_sveng
+﻿using System.Linq.Expressions;
+
+namespace MJU23v_D10_inl_sveng
 {
     internal class Program
     {
@@ -26,20 +28,21 @@
                 string[] argument = Console.ReadLine().Split(); //FIXME kontroll felaktig inmatning från användare
                 string command = argument[0];
                 if (command == "quit")
-                {Console.WriteLine("Goodbye!"); break;}
+                { Console.WriteLine("Goodbye!"); break; }
                 else if (command == "load")
                 {
-                    if(argument.Length == 1) loadList(defaultFile);
+                    if (argument.Length == 1) loadList(defaultFile);
                     else try {
-                        { defaultFile = "..\\..\\..\\dict\\" + argument[1];
-                          loadList(defaultFile);
-                        }
-                    }catch(System.IO.FileNotFoundException) { defaultFile = "..\\..\\..\\dict\\sweeng.lis"; Console.WriteLine($"File {defaultFile} didn´t exist"); }   
+                            { defaultFile = "..\\..\\..\\dict\\" + argument[1];
+                                loadList(defaultFile);
+                            }
+                        } catch (System.IO.FileNotFoundException) { defaultFile = "..\\..\\..\\dict\\sweeng.lis"; Console.WriteLine($"File {defaultFile} didn´t exist"); }
                 }
                 else if (command == "list")
-                {
-                    foreach (SweEngGloss gloss in dictionary)
-                    {Console.WriteLine($"{gloss.word_swe,-10}  - {gloss.word_eng,-10}");}
+                {   try {
+                        foreach (SweEngGloss gloss in dictionary)
+                        { Console.WriteLine($"{gloss.word_swe,-10}  - {gloss.word_eng,-10}"); }
+                    } catch (System.NullReferenceException) { Console.WriteLine($"Empty list, load a list before using this command"); }
                 }
                 else if (command == "new")
                 {
