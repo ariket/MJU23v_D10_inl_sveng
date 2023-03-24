@@ -31,7 +31,7 @@
                 }
                 else if (command == "load")
                 {
-                    if(argument.Length == 2) //FIXME kontrollera att filen existerar
+                    if (argument.Length == 2) //FIXME kontrollera att filen existerar
                     {
                         using (StreamReader sr = new StreamReader(argument[1]))
                         {
@@ -45,7 +45,7 @@
                             }
                         }
                     }
-                    else if(argument.Length == 1)
+                    else if (argument.Length == 1)
                     {
                         using (StreamReader sr = new StreamReader(defaultFile))
                         {
@@ -62,7 +62,7 @@
                 }
                 else if (command == "list")
                 {
-                    foreach(SweEngGloss gloss in dictionary)
+                    foreach (SweEngGloss gloss in dictionary)
                     {
                         Console.WriteLine($"{gloss.word_swe,-10}  - {gloss.word_eng,-10}");
                     }
@@ -73,7 +73,7 @@
                     {
                         dictionary.Add(new SweEngGloss(argument[1], argument[2]));
                     }
-                    else if(argument.Length == 1)
+                    else if (argument.Length == 1)
                     {
                         string sweWord, engWord;
                         wordInput(out sweWord, out engWord);
@@ -84,26 +84,15 @@
                 {
                     if (argument.Length == 3)
                     {
-                        int index = -1;
-                        for (int i = 0; i < dictionary.Count; i++) {
-                            SweEngGloss gloss = dictionary[i];
-                            if (gloss.word_swe == argument[1] && gloss.word_eng == argument[2])
-                                index = i;
-                        }
-                        dictionary.RemoveAt(index);
+                        string sweWord = argument[1];
+                        string engWord = argument[2];
+                        removeWord(sweWord, engWord);
                     }
                     else if (argument.Length == 1)
                     {
                         string sweWord, engWord;
                         wordInput(out sweWord, out engWord);
-                        int index = -1;
-                        for (int i = 0; i < dictionary.Count; i++)
-                        {
-                            SweEngGloss gloss = dictionary[i];
-                            if (gloss.word_swe == sweWord && gloss.word_eng == engWord)
-                                index = i;
-                        }
-                        dictionary.RemoveAt(index);
+                        removeWord(sweWord, engWord);
                     }
                 }
                 else if (command == "translate")
@@ -130,6 +119,18 @@
                 }
             }   //NYI Help funktion
             while (true);
+        }
+
+        private static void removeWord(string sweWord, string engWord)
+        {
+            int index = -1;
+            for (int i = 0; i < dictionary.Count; i++)
+            {
+                SweEngGloss gloss = dictionary[i];
+                if (gloss.word_swe == sweWord && gloss.word_eng == engWord)
+                    index = i;
+            }
+            dictionary.RemoveAt(index);
         }
 
         private static void wordInput(out string sweWord, out string engWord)
