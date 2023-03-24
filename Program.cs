@@ -25,6 +25,7 @@ namespace MJU23v_D10_inl_sveng
             do
             {
                 Console.Write("> ");
+
                 string[] argument = Console.ReadLine().Split(); //FIXME kontroll felaktig inmatning från användare
                 string command = argument[0];
                 if (command == "quit")
@@ -46,7 +47,7 @@ namespace MJU23v_D10_inl_sveng
                 }
                 else if (command == "new")
                 {
-                    if (argument.Length == 3) //TODO kontrollera att inmatning av användare är korrekt
+                    if (argument.Length == 3)
                     {dictionary.Add(new SweEngGloss(argument[1], argument[2]));}
                     else if (argument.Length == 1)
                     {
@@ -54,7 +55,7 @@ namespace MJU23v_D10_inl_sveng
                         wordInput(out sweWord, out engWord);
                         dictionary.Add(new SweEngGloss(sweWord, engWord));
                     }
-                    else Console.WriteLine("Felaktig inmatning. Använd new och därefter enter");
+                    else Console.WriteLine("Wrong input. Use new and push enter");
                 }
                 else if (command == "delete")  //TODO kontrollera att inmatning av användare är korrekt
                 {
@@ -70,6 +71,7 @@ namespace MJU23v_D10_inl_sveng
                         wordInput(out sweWord, out engWord);
                         removeWord(sweWord, engWord);
                     }
+                    else { Console.WriteLine("Wrong input. Use new and push enter"); }
                 }
                 else if (command == "translate")
                 {
@@ -114,14 +116,18 @@ namespace MJU23v_D10_inl_sveng
 
         private static void removeWord(string sweWord, string engWord)
         {
-            int index = -1;
+            Console.WriteLine($"{sweWord}  {engWord} ");
+
+        int index = -1;
             for (int i = 0; i < dictionary.Count; i++)
             {
                 SweEngGloss gloss = dictionary[i];
                 if (gloss.word_swe == sweWord && gloss.word_eng == engWord)
                     index = i;
             }
+            try{
             dictionary.RemoveAt(index);
+            }catch (System.ArgumentOutOfRangeException) { Console.WriteLine($"{sweWord} and/or {engWord} does´nt excist in dictionary"); }
         }
 
         private static void wordInput(out string sweWord, out string engWord)
