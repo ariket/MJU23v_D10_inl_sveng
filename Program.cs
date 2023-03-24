@@ -2,7 +2,7 @@
 {
     internal class Program
     {
-        static List<SweEngGloss> dictionary;
+        static List<SweEngGloss>? dictionary;
         class SweEngGloss
         {
             public string word_swe, word_eng;
@@ -26,34 +26,25 @@
                 string[] argument = Console.ReadLine().Split(); //FIXME kontroll felaktig inmatning från användare
                 string command = argument[0];
                 if (command == "quit")
-                {
-                    Console.WriteLine("Goodbye!"); break;
-                }
+                {Console.WriteLine("Goodbye!"); break;}
                 else if (command == "load")
                 {
-                    if (argument.Length == 2) //FIXME kontrollera att filen existerar
-                    {
-                        defaultFile = "..\\..\\..\\dict\\" + argument[1];
-                        loadList(defaultFile);
-                    }
-                    else if (argument.Length == 1)
-                    {
-                        loadList(defaultFile);
-                    }
+                    if(argument.Length == 1) loadList(defaultFile);
+                    else try {
+                        { defaultFile = "..\\..\\..\\dict\\" + argument[1];
+                          loadList(defaultFile);
+                        }
+                    }catch(System.IO.FileNotFoundException) { defaultFile = "..\\..\\..\\dict\\sweeng.lis"; Console.WriteLine($"File {defaultFile} didn´t exist"); }   
                 }
                 else if (command == "list")
                 {
                     foreach (SweEngGloss gloss in dictionary)
-                    {
-                        Console.WriteLine($"{gloss.word_swe,-10}  - {gloss.word_eng,-10}");
-                    }
+                    {Console.WriteLine($"{gloss.word_swe,-10}  - {gloss.word_eng,-10}");}
                 }
                 else if (command == "new")
                 {
                     if (argument.Length == 3) //TODO kontrollera att inmatning av användare är korrekt
-                    {
-                        dictionary.Add(new SweEngGloss(argument[1], argument[2]));
-                    }
+                    {dictionary.Add(new SweEngGloss(argument[1], argument[2]));}
                     else if (argument.Length == 1)
                     {
                         string sweWord, engWord;
