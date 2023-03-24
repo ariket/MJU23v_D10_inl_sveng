@@ -22,43 +22,48 @@ namespace MJU23v_D10_inl_sveng
         static void Main(string[] args)
         {
             string defaultFile = "..\\..\\..\\dict\\sweeng.lis";
-            Console.WriteLine("Welcome to the dictionary app! \n<help> for allowed commands ");
+            Console.WriteLine("Welcome to the dictionary app! \nwrite <help> for allowed commands ");
             do
             {
                 Console.Write("> ");
-
-                string[] argument = Console.ReadLine().Split(); //FIXME kontroll felaktig inmatning från användare
+                string[] argument = Console.ReadLine().Split();
                 string command = argument[0];
                 if (command == "quit")
                 { Console.WriteLine("Goodbye!"); break; }
                 else if (command == "load")
                 {
                     if (argument.Length == 1) loadList(defaultFile);
-                    else try {
-                            { defaultFile = "..\\..\\..\\dict\\" + argument[1];
+                    else try
+                        {
+                            {
+                                defaultFile = "..\\..\\..\\dict\\" + argument[1];
                                 loadList(defaultFile);
                             }
-                        } catch (System.IO.FileNotFoundException) { defaultFile = "..\\..\\..\\dict\\sweeng.lis"; Console.WriteLine($"File {defaultFile} didn´t exist"); }
+                        }
+                        catch (System.IO.FileNotFoundException) { Console.WriteLine($"File {defaultFile} didn´t exist"); defaultFile = "..\\..\\..\\dict\\sweeng.lis"; }
                 }
                 else if (command == "list")
-                {   try {
+                {
+                    try
+                    {
                         foreach (SweEngGloss gloss in dictionary)
                         { Console.WriteLine($"{gloss.word_swe,-10}  - {gloss.word_eng,-10}"); }
-                    } catch (System.NullReferenceException) { Console.WriteLine($"Empty list, load a list before using this command"); }
+                    }
+                    catch (System.NullReferenceException) { Console.WriteLine($"Empty list, load a list before using this command"); }
                 }
                 else if (command == "new")
                 {
-                    if (argument.Length == 3)
-                    {dictionary.Add(new SweEngGloss(argument[1], argument[2]));}
-                    else if (argument.Length == 1)
-                    {
-                        string sweWord, engWord;
-                        wordInput(out sweWord, out engWord);
-                        dictionary.Add(new SweEngGloss(sweWord, engWord));
-                    }
-                    else Console.WriteLine("Wrong input. Use new and push enter");
+                    string sweWord = "", engWord = "";
+                    if (argument.Length == 3) { sweWord = argument[1]; engWord = argument[2]; }
+                    if (argument.Length == 1) { wordInput(out sweWord, out engWord); }
+                    if ((argument.Length == 2) || (argument.Length > 3)) { Console.WriteLine("Wrong input. Use new and push enter"); }
+                    else try
+                        {
+                            dictionary.Add(new SweEngGloss(sweWord, engWord)); Console.WriteLine($"{sweWord} and {engWord} added to list ");
+                        }
+                        catch (System.NullReferenceException) { Console.WriteLine($"Empty list, load a list before using this command"); }
                 }
-                else if (command == "delete") 
+                else if (command == "delete")
                 {
                     if (argument.Length == 3)
                     {
@@ -76,7 +81,7 @@ namespace MJU23v_D10_inl_sveng
                 }
                 else if (command == "translate")
                 {
-                    if (argument.Length == 2)  
+                    if (argument.Length == 2)
                     {
                         TranslateWord(argument[1]);
                     }
@@ -91,13 +96,14 @@ namespace MJU23v_D10_inl_sveng
                 else if (command == "help")
                 {
                     Console.WriteLine("Allowed commands:");
-                    Console.Write("quit - for end this program\nload - load a file\nlist - list all posts in program\nnew - add new post\ndelete - delete post\ntranslate - translate av word  ");
+                    Console.Write("quit - for end this program\nload - load a file\nlist - list all posts in program\nnew - " +
+                                  "add new post\ndelete - delete post\ntranslate - translate av word \n ");
                 }
                 else
                 {
                     Console.WriteLine($"Unknown command: '{command}'");
                 }
-            }   //NYI Help funktion
+            }
             while (true);
         }
 
@@ -118,16 +124,18 @@ namespace MJU23v_D10_inl_sveng
 
         private static void removeWord(string sweWord, string engWord)
         {
-        int index = -1;
+            int index = -1;
             for (int i = 0; i < dictionary.Count; i++)
             {
                 SweEngGloss gloss = dictionary[i];
                 if (gloss.word_swe == sweWord && gloss.word_eng == engWord)
                     index = i;
             }
-            try{
-            dictionary.RemoveAt(index);
-            }catch (System.ArgumentOutOfRangeException) { Console.WriteLine($"{sweWord} and/or {engWord} does´nt excist in dictionary"); }
+            try
+            {
+                dictionary.RemoveAt(index); Console.WriteLine($"{sweWord} and {engWord} deleted from list ");
+            }
+            catch (System.ArgumentOutOfRangeException) { Console.WriteLine($"{sweWord} and/or {engWord} doesn´t excist in dictionary"); }
         }
 
         private static void wordInput(out string sweWord, out string engWord)
@@ -148,10 +156,9 @@ namespace MJU23v_D10_inl_sveng
                     if (gloss.word_swe == argument)
                     { Console.WriteLine($"English for {gloss.word_swe} is {gloss.word_eng}"); wordexist++; }
                     if (gloss.word_eng == argument)
-                    {   Console.WriteLine($"Swedish for {gloss.word_eng} is {gloss.word_swe}"); wordexist++; }
-                    Console.WriteLine($"Test {argument}    number:{wordexist}");
+                    { Console.WriteLine($"Swedish for {gloss.word_eng} is {gloss.word_swe}"); wordexist++; }
                 }
-                if(wordexist == 0) Console.WriteLine($"The word {argument} doesn´t exist in dictionary");
+                if (wordexist == 0) Console.WriteLine($"The word {argument} doesn´t exist in dictionary");
             }
             catch (System.NullReferenceException) { Console.WriteLine($"Empty list, load a list before using this command"); }
 
