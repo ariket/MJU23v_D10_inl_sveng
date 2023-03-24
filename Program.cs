@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace MJU23v_D10_inl_sveng
 {
@@ -141,13 +142,16 @@ namespace MJU23v_D10_inl_sveng
         {
             try
             {
+                int wordexist = 0;
                 foreach (SweEngGloss gloss in dictionary)
                 {
                     if (gloss.word_swe == argument)
-                        Console.WriteLine($"English for {gloss.word_swe} is {gloss.word_eng}");
+                    { Console.WriteLine($"English for {gloss.word_swe} is {gloss.word_eng}"); wordexist++; }
                     if (gloss.word_eng == argument)
-                        Console.WriteLine($"Swedish for {gloss.word_eng} is {gloss.word_swe}");
+                    {   Console.WriteLine($"Swedish for {gloss.word_eng} is {gloss.word_swe}"); wordexist++; }
+                    Console.WriteLine($"Test {argument}    number:{wordexist}");
                 }
+                if(wordexist == 0) Console.WriteLine($"The word {argument} doesn´t exist in dictionary");
             }
             catch (System.NullReferenceException) { Console.WriteLine($"Empty list, load a list before using this command"); }
 
