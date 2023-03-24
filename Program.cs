@@ -54,6 +54,7 @@ namespace MJU23v_D10_inl_sveng
                         wordInput(out sweWord, out engWord);
                         dictionary.Add(new SweEngGloss(sweWord, engWord));
                     }
+                    else Console.WriteLine("Felaktig inmatning. Använd new och därefter enter");
                 }
                 else if (command == "delete")  //TODO kontrollera att inmatning av användare är korrekt
                 {
