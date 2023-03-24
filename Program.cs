@@ -23,15 +23,15 @@
             do
             {
                 Console.Write("> ");
-                string[] argument = Console.ReadLine().Split();
+                string[] argument = Console.ReadLine().Split(); //FIXME kontroll felaktig inmatning från användare
                 string command = argument[0];
                 if (command == "quit")
                 {
-                    Console.WriteLine("Goodbye!");
+                    Console.WriteLine("Goodbye!"); //TODO avslutar inte programmet
                 }
                 else if (command == "load")
                 {
-                    if(argument.Length == 2)
+                    if(argument.Length == 2) //FIXME kontrollera att filen existerar
                     {
                         using (StreamReader sr = new StreamReader(argument[1]))
                         {
@@ -39,7 +39,7 @@
                             string line = sr.ReadLine();
                             while (line != null)
                             {
-                                SweEngGloss gloss = new SweEngGloss(line);
+                                SweEngGloss gloss = new SweEngGloss(line);          //TODO göra static function
                                 dictionary.Add(gloss);
                                 line = sr.ReadLine();
                             }
@@ -69,7 +69,7 @@
                 }
                 else if (command == "new")
                 {
-                    if (argument.Length == 3)
+                    if (argument.Length == 3) //TODO kontrollera att inmatning av användare är korrekt
                     {
                         dictionary.Add(new SweEngGloss(argument[1], argument[2]));
                     }
@@ -82,7 +82,7 @@
                         dictionary.Add(new SweEngGloss(s, e));
                     }
                 }
-                else if (command == "delete")
+                else if (command == "delete")  //TODO kontrollera att inmatning av användare är korrekt
                 {
                     if (argument.Length == 3)
                     {
@@ -112,7 +112,7 @@
                 }
                 else if (command == "translate")
                 {
-                    if (argument.Length == 2)
+                    if (argument.Length == 2)  //FIXME kontrollera att ordet finns annars ge felmedelande 
                     {
                         foreach(SweEngGloss gloss in dictionary)
                         {
@@ -139,7 +139,7 @@
                 {
                     Console.WriteLine($"Unknown command: '{command}'");
                 }
-            }
+            }   //NYI Help funktion
             while (true);
         }
     }
