@@ -48,19 +48,17 @@ namespace MJU23v_D10_inl_sveng
                 }
                 else if (command == "new")
                 {
-                    string sweWord, engWord;
-                    wordCheck(argument, out sweWord, out engWord);
-                    if(argument.Length == 1 || argument.Length == 3)
-                    try { dictionary.Add(new SweEngGloss(sweWord, engWord)); Console.WriteLine($"{sweWord} and {engWord} added to list ");}
-                    catch (System.NullReferenceException) { Console.WriteLine($"Empty list, load a list before using this command"); }
+                    wordCheck(argument, out string newSweWord, out string newEngWord);
+                    if (argument.Length == 1 || argument.Length == 3)
+                        try { dictionary.Add(new SweEngGloss(newSweWord, newEngWord)); Console.WriteLine($"{newSweWord} and {newEngWord} added to list "); }
+                        catch (System.NullReferenceException) { Console.WriteLine($"Empty list, load a list before using this command"); }
                 }
                 else if (command == "delete")
                 {
-                    string sweWord, engWord;
-                    wordCheck(argument, out sweWord, out engWord);
+                    wordCheck(argument, out string delSweWord, out string delEngWord);
                     if (argument.Length == 1 || argument.Length == 3)
-                        try { removeWord(sweWord, engWord); }
-                    catch (System.NullReferenceException) { Console.WriteLine($"Empty list, load a list before using this command"); }
+                        try { removeWord(delSweWord, delEngWord); }
+                        catch (System.NullReferenceException) { Console.WriteLine($"Empty list, load a list before using this command"); }
                 }
                 else if (command == "translate")
                 {
@@ -89,14 +87,17 @@ namespace MJU23v_D10_inl_sveng
             }
             while (true);
         }
-
         private static void wordCheck(string[] argument, out string sweWord, out string engWord)
         {
-            sweWord = "";
-            engWord = "";
             if (argument.Length == 3) { sweWord = argument[1]; engWord = argument[2]; }
-            if (argument.Length == 1) { wordInput(out sweWord, out engWord); }
-            if ((argument.Length == 2) || (argument.Length > 3)) { Console.WriteLine("Wrong input. Use new or delete and push enter"); }
+            else if (argument.Length == 1)
+            {
+                Console.Write("Write word in Swedish: ");
+                sweWord = Console.ReadLine();
+                Console.Write("Write word in English: ");
+                engWord = Console.ReadLine();
+            }
+            else { Console.WriteLine("Wrong input. Use new or delete and push enter"); sweWord = ""; engWord = ""; }
         }
 
         private static void loadList(string defaultFile)
@@ -129,15 +130,6 @@ namespace MJU23v_D10_inl_sveng
             }
             catch (System.ArgumentOutOfRangeException) { Console.WriteLine($"{sweWord} and/or {engWord} doesn´t excist in dictionary"); }
         }
-
-        private static void wordInput(out string sweWord, out string engWord)
-        {
-            Console.Write("Write word in Swedish: ");
-            sweWord = Console.ReadLine();
-            Console.Write("Write word in English: ");
-            engWord = Console.ReadLine();
-        }
-
         private static void TranslateWord(string argument)
         {
             try
