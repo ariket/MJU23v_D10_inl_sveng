@@ -75,10 +75,8 @@
                     }
                     else if(argument.Length == 1)
                     {
-                        Console.WriteLine("Write word in Swedish: ");
-                        string sweWord = Console.ReadLine();
-                        Console.Write("Write word in English: ");
-                        string engWord = Console.ReadLine();
+                        string sweWord, engWord;
+                        wordInput(out sweWord, out engWord);
                         dictionary.Add(new SweEngGloss(sweWord, engWord));
                     }
                 }
@@ -96,10 +94,8 @@
                     }
                     else if (argument.Length == 1)
                     {
-                        Console.WriteLine("Write word in Swedish: ");
-                        string sweWord = Console.ReadLine();
-                        Console.Write("Write word in English: ");
-                        string engWord = Console.ReadLine();
+                        string sweWord, engWord;
+                        wordInput(out sweWord, out engWord);
                         int index = -1;
                         for (int i = 0; i < dictionary.Count; i++)
                         {
@@ -128,13 +124,20 @@
                     Console.WriteLine("Allowed commands:");
                     Console.Write("quit - for end this program\nload - load a file\nlist - list all posts in program\nnew - add new post\ndelete - delete post\ntranslate - translate av word  ");
                 }
-
                 else
                 {
                     Console.WriteLine($"Unknown command: '{command}'");
                 }
             }   //NYI Help funktion
             while (true);
+        }
+
+        private static void wordInput(out string sweWord, out string engWord)
+        {
+            Console.Write("Write word in Swedish: ");
+            sweWord = Console.ReadLine();
+            Console.Write("Write word in English: ");
+            engWord = Console.ReadLine();
         }
 
         private static void TranslateWord(string[] argument)
